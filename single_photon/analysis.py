@@ -123,8 +123,8 @@ def plot_oer(t, r, g):
 
 def get_statistics(bins, vals):
 
-    model = lambda x, mean, std, const: const * norm(loc=mean, scale=std).pdf(x
-                                                                              )
+    def model(x, mean, std, const): return const * \
+        norm(loc=mean, scale=std).pdf(x)
 
     popt, pcov = curve_fit(model, bins, vals, p0=[20, 10, 1000])
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     m_r, s_r = get_statistics(*R)
 
     std_multiplier = 5
-    
+
     thr_t = (int(round(m_t - s_t * std_multiplier)),
              int(round(m_t + s_t * std_multiplier)))
     thr_r = (int(round(m_r - s_r * std_multiplier)),
@@ -155,12 +155,12 @@ if __name__ == "__main__":
     b_r, v_r = timediffs_histo(r, g, thr_r)
 
     td = get_timediffs_double(t, r, g, thr_t, thr_r)
-    
+
     N_G = len(g)
     N_TG = np.sum(v_t)
     N_RG = np.sum(v_r)
     N_TRG = len(list(td))
-    
+
     print(f'{N_G=}')
     print(f'{N_TG=}')
     print(f'{N_RG=}')
