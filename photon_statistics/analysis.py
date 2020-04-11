@@ -4,21 +4,26 @@ from functools import partial
 
 import numpy as np
 import matplotlib.pyplot as plt
-from astropy.visualization import astropy_mpl_style
 from astropy import units as u
 import pandas as pd
 import numba
 from matplotlib import cm
 from scipy.stats import poisson
+from matplotlib import rc
+rc('font',**{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
+rc('text.latex', preamble=r'''\usepackage{amsmath}
+          \usepackage{physics}
+          \usepackage{siunitx}
+          ''')
 
-plt.style.use(astropy_mpl_style)
 
 THERMAL_PATH = 'data/24, Jan, 2020 - Thermal/'
 COHERENT_PATH = 'data/24, Jan, 2020 - Coherent/'
 RESOLUTION = 81 * u.picosecond
 MAX_TICKS = int(1e4)
 
-WINDOWS = np.logspace(-2, 3.5, num=20) * u.us
+WINDOWS = np.logspace(-2, 3.5, num=100) * u.us
 
 THERMAL_NAMES = [THERMAL_PATH + 'Part_' + str(i) + '.txt' for i in range(10)]
 COHERENT_NAMES = [COHERENT_PATH + 'Part_' + str(i) + '.txt' for i in range(10)]
@@ -291,14 +296,15 @@ def plot_descriptions(windows, descriptions, colors=None):
     of strings representing the colors with which the descriptors should be plotted.
     """
 
-    _, axs = plt.subplots(1, 2)
+    _, axs = plt.subplots(1, 2, sharey=True)
 
     if colors is None:
         colors = COLORS
+    from matplotlib import ticker
 
     for i, (name, description) in enumerate(descriptions.items()):
-        for (characteristic, color) in zip(description[0], colors):
-
+        for characteristic in description[0]:
+    
             linestyle = '--' if 'theoretical' in characteristic else '-'
 
             axs[i].loglog(windows, [y[characteristic] for y in description],
@@ -309,7 +315,12 @@ def plot_descriptions(windows, descriptions, colors=None):
         axs[i].set_title(name)
         axs[i].legend()
         axs[i].set_xlabel(f'window size [{windows.unit}]')
+        axs[i].grid('on', which='major')
+        # axs[i].tick_params(which='both')
+        # axs[i].tick_params(axis='y', which='minor', bottom=False)
+    # axs[0].yaxis.set_minor_locator(ticker.LogLocator())
 
+        axs[i].minorticks_on()
     plt.tight_layout()
     plt.savefig('descriptions.pdf', format='pdf')
     plt.show(block=False)
