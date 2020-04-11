@@ -4,21 +4,63 @@
 \section{Photon statistics}
 
 
-
-
 \begin{figure}[ht]
 \centering
 \input{figures/sandpaper.tex}
 \caption{Sandpaper setup.}
 \label{fig:sandpaper}
-\end{figure}
+\end{figure}    
 
+\subsection{Analysis}
 
+With the sandpaper disk kept stationary, we expect the coherent state of the laser to be preserved, and therefore to have 
+%
+\begin{align}
+\mathbb{P} (n) = \frac{e^{-\overline{n}} \overline{n}^{n}}{n!}
+\,,
+\end{align}
+%
+while if the sandpaper disk is rotating we expect to see a thermal distribution, with 
+%
+\begin{align}
+\mathbb{P} (n) = \frac{\overline{n}^{n}}{(1 + \overline{n})^{n+1}}
+\,.
+\end{align}
 
+In order to see how these theoretical distributions compare to the data, we compute their first moments: the mean 
+%
+\begin{align}
+\overline{n} = \sum _{n} \mathbb{P}(n) n
+\,,
+\end{align}
+%
+the variance 
+%
+\begin{align}
+\sigma^2 = \sum _{n} \mathbb{P}(n) (n - \overline{n})^2
+\,,
+\end{align}
+%
+the normalized skewness 
+%
+\begin{align}
+\text{skewness} = \frac{1}{\sigma^3} \sum _{n} \mathbb{P}(n) (n - \overline{n})^3
+\,,
+\end{align}
+%
+and the normalized kurtosis 
+%
+\begin{align}
+\text{kurtosis} = \frac{1}{\sigma^4} \sum _{n} \mathbb{P}(n) (n - \overline{n})^4
+\,.
+\end{align}
+
+The only parameter the distributions depend on is the mean; so starting from it we compute these moments. 
+The results, for window sizes varying from \SI{10}{ns} to approximately \SI{3}{ms}, are shown in figure \ref{fig:photon_statistics}.
 
 \begin{sidewaysfigure}[ht]
     \includegraphics[width=\textwidth]{figures/photon_statistics.pdf}
-    \caption{Test.}
+    \caption{Photon statistics.}
     \label{fig:photon_statistics}
 \end{sidewaysfigure}
 
