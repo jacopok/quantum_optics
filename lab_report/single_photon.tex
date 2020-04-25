@@ -1,11 +1,25 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
+\section{Indivisibility of the photon}
+
+\subsection{Description of the apparatus}
+
 \begin{figure}[ht]
 \centering
 \input{figures/spdc.tex}
 \caption{SPDC setup.}
 \label{fig:spdc}
 \end{figure}
+
+\subsection{Data analysis}
+
+The output of the timetagger is a table of times and corresponding channel values.
+Each entry of this table represents a photon detection at a single detector.
+The times are expressed as integer multiples of the temporal resolution of the timetagger, which is nominally \SI{80.955}{ps}.
+
+There is a slight complication: the timetagger exhibits a slight preference for odd values of the integer which represents the time, as opposed to even ones. This is discussed in more detail in appendix [ADD REF], for now we can just say that this effect does not pose an issue for our analysis.
+
+We can then 
 
 \end{document}
