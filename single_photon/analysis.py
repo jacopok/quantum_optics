@@ -6,20 +6,19 @@ from scipy.optimize import curve_fit
 from scipy.stats import norm
 
 FILENAME = 'data/TimeTags.txt'
-RESOLUTION = 80.955 * u.ps
+RESOLUTION = 80.955 * u.ps * 2
 THR = (-20, 100)
 
 
 def read_file(name):
     """Returns a pandas dataframe from the comma-separated file at name"""
 
-    data = pd.read_csv(name,
+    return pd.read_csv(name,
                        sep=';',
                        header=None,
                        names=['ticks', 'channel'],
                        comment='#',
                        dtype=np.int)
-    return data
 
 
 def get_ticks(name=FILENAME):
@@ -27,9 +26,9 @@ def get_ticks(name=FILENAME):
 
     data = read_file(name)
 
-    ticks_t = data[data['channel'] == 2]['ticks'].values
-    ticks_r = data[data['channel'] == 3]['ticks'].values
-    ticks_g = data[data['channel'] == 4]['ticks'].values
+    ticks_t = data[data['channel'] == 2]['ticks'].values // 2
+    ticks_r = data[data['channel'] == 3]['ticks'].values // 2
+    ticks_g = data[data['channel'] == 4]['ticks'].values // 2
 
     first_tick = min(ticks_t[0], ticks_r[0], ticks_g[0])
 
@@ -72,9 +71,8 @@ def get_timediffs_double(a1, a2, g, thr1, thr2):
         except IndexError:
             res2 = a2[j] - tick
 
-        if thr1[0] <= res1 <= thr1[1]:
-            if thr2[0] <= res2 <= thr2[1]:
-                yield (res1, res2)
+        if thr1[0] <= res1 <= thr1[1] and thr2[0] <= res2 <= thr2[1]:
+            yield (res1, res2)
 
 
 def timediffs_histo(arr, g, thr):
@@ -168,3 +166,12 @@ if __name__ == "__main__":
     print()
     print(f'ratio r = {N_RG / N_G}')
     print(f'ratio t = {N_TG / N_G}')
+
+# In [14]: plt.bar(b_t, v_t, label="Time differences: transmitted - gate", alpha=.7)
+#     ...: plt.bar(b_r, v_r, label="Time differences: reflected - gate", alpha=.7)
+# Out[14]: <BarContainer object of 120 artists>
+
+# In [15]: plt.xlabel('Time difference [integer multiples of 160ps]')
+#     ...: plt.ylabel('Counts')
+#     ...: plt.legend()
+#     ...: plt.show()

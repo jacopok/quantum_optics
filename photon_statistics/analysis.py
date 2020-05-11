@@ -43,19 +43,17 @@ COLORS = {
 def read_file(name):
     """Returns a pandas dataframe from the comma-separated file at name"""
 
-    data = pd.read_csv(name,
-                       sep=',',
-                       header=None,
-                       names=['ticks', 'channel'],
-                       dtype=np.int)
-    return data
+    return pd.read_csv(name,
+                           sep=',',
+                           header=None,
+                           names=['ticks', 'channel'],
+                           dtype=np.int)
 
 
 def get_ticks(name):
     """Returns the array of times contained in the file at name"""
     data = read_file(name)
-    ticks = data['ticks'].values
-    return ticks
+    return data['ticks'].values
 
 
 def get_ticks_names(names):
@@ -63,9 +61,7 @@ def get_ticks_names(names):
     All of these are normalized so that the first time is zero.
     """
 
-    all_ticks = []
-    for name in names:
-        all_ticks.append(get_ticks(name))
+    all_ticks = [get_ticks(name) for name in names]
     return [x - x[0] for x in all_ticks]
 
 
@@ -81,7 +77,7 @@ def sum_arrays(arrays):
     at corresponding indices.
     """
 
-    max_len = max([len(a) for a in arrays])
+    max_len = max(len(a) for a in arrays)
     result = np.zeros(max_len)
     for a in arrays:
         result[:len(a)] += a
@@ -240,8 +236,7 @@ def analyze(dist, bins, nbar):
     """
 
     values = dist(bins, nbar)
-    th_desc = {}
-    th_desc['variance'] = moment(bins, values, 2)
+    th_desc = {'variance': moment(bins, values, 2)}
     th_desc['skewness'] = moment(bins, values, 3) / moment(bins, values,
                                                            2)**(3 / 2)
     th_desc['kurtosis'] = moment(bins, values, 4) / moment(bins, values,
