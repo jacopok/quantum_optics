@@ -53,7 +53,7 @@ This parameter allows us to quantify the correlation or anticorrelation between 
 \begin{enumerate}
     \item In quantum theory, we expect \(\mathbb{P}(RT|G) = 0\), since the photon cannot be detected at both sides --- therefore \(g^{(2)} = 0\).
     \item In classical theory, we expect \(\mathbb{P}(RT|G) = \mathbb{P}(R|G) \mathbb{P}(T|G)\), since the events are independent, at each moment in time. If the laser's intensity is constant this can be extrapolated through the whole observation to yield \(g^{(2)} = 1\). 
-    \item In classical theory we can also consider the effect of a time-varying intensity. In that case, this intensity \(I(t)\) is split into \(\mathcal{T}I(t)\) and \(\mathcal{R}I(t)\) at the detector, where \(\mathcal{T}\) and \(\mathcal{R}\) are the transmission and reflection coefficients, satisfying \(\mathcal{T} + \mathcal{R} =1\). Then, we get 
+    \item In classical theory we can also consider the effect of a time-varying intensity. In that case, this intensity \(I(t)\) is split into \(\mathcal{T}I(t)\) and \(\mathcal{R}I(t)\) at the beamsplitter, where \(\mathcal{T}\) and \(\mathcal{R}\) are the transmission and reflection coefficients, satisfying \(\mathcal{T} + \mathcal{R} =1\). Then, we get 
     %
     \begin{align}
     g^{(2)} = \frac{ \int \mathcal{T} I(t) \mathcal{R}I(t) \dd{t}}{ \int \mathcal{T} I(t) \dd{t} \int \mathcal{R} I(t) \dd{t}} \geq 1
@@ -63,7 +63,7 @@ This parameter allows us to quantify the correlation or anticorrelation between 
     by the Cauchy-Schwarz inequality. All the temporal integrals are definite ones, the bounds corresponding to the time of observation. For a small enough temporal variation of the intensity, the result approaches 1. 
 \end{enumerate}
 
-This is all in the case of an ideal detector, with no losses nor dark count. We do not explore the effect of these theoretically; instead in the data analysis these effects are parametrized and simulated as stochastic variables. 
+This is all in the case of an ideal detector, with no losses nor dark count. We do not explore the effect of these sources of error theoretically; instead, in the data analysis they are parametrized and simulated as stochastic variables. 
 
 \subsection{Data preparation}
 
@@ -71,7 +71,7 @@ The output of the timetagger is a table of times and corresponding channel value
 Each entry of this table represents a photon detection at a single detector.
 The times are expressed as integer multiples of the temporal resolution of the timetagger, which is nominally \SI{80.955}{ps}.
 
-There is a slight complication: the timetagger exhibits a slight preference for odd values of the integer which represents the time, as opposed to even ones. This effect does not pose an issue for our analysis, as long as we bin our arrival times in time intervals of \(2 \times \SI{80.955}{ps}\). 
+There is a complication: the timetagger exhibits a slight preference for odd values of the integer which represents the time, as opposed to even ones. This effect does not pose an issue for our analysis, as long as we bin our arrival times in time intervals of \(2 \times \SI{80.955}{ps}\). 
 
 We want to calculate \textbf{coincidences}. The temporal resolution we have corresponds to a length scale of around \SI{5}{cm}, which is smaller than the size of the apparatus, so we are able to see systematic time differences between the arrival times corresponding to the light's travel time. 
 
@@ -84,7 +84,7 @@ In figure \ref{fig:single_photon_timedifferences} we plot the differences betwee
 \label{fig:single_photon_timedifferences}
 \end{figure}
 
-We see distinct Gaussian peaks a few nanoseconds away from zero. We fit these, and find the means to be 10 and 27 respectively, while the standard deviations are both 3.
+We see distinct Gaussian peaks a few nanoseconds away from zero. We fit these, and find the means to be 10 and 27 respectively, while the standard deviations are both around 3.
 
 Outside of these peaks, there is a constant noise background of the order of 10 detections per \(\Delta t\) bin.
 We choose to consider as coincidences events which lie within 5 standard deviations in each peak, since around that point the values become compatible with those of the background.
@@ -117,7 +117,7 @@ The two models --- quantum and classical --- are simulated and an estimate for t
     \item The number \(N_G\) is fixed as the total number of potential event detections for either detector. 
     \item We set two parameters: \(r\), the detection rate, and \(e\), the error rate.
     Each detector is assumed to detect a fraction \(r\) of the incoming photons, and to make an error a fraction \(e\) of the time --- this can be either a dark count, or a missed detection (although since \(r \ll 1\), it mostly accounts for the former).\footnote{A small correction is needed to account for the detector asymmetry. We observe \(N_{TG} - N_{RG} \approx 1000\), which is on the order of \(8 \sigma \) using Poisson statistics (\(\sqrt{N_{TG}} \approx 122\)): so, there is a bias in the detectors or in the beamsplitter --- we cannot tell, but surely it is the case that statistically more coincidences are detected in one detector than the other. This is accounted for by calculating the factor \(b = N_{TG} / N_{RG}\) from the data and applying it as a \emph{constant bias} for each simulated ratio between the detectors, for both models. So, if one detector is simulated to have a rate \(r\) the other one is simulated to have a detection rate \(br\).}
-    \item In the classical case, the detectors are simulated independently, while in the quantum case a ``which-way'' parameter is simulated with a \(1/2\) chance for either direction, and only the selected detector may see the photon. In order to account for the halving of the number of photons seen globally (and to compare the numbers for the classical and quantum case directly), the detection rate for the classical is halved.
+    \item In the classical case, the detectors are simulated independently, while in the quantum case a ``which-way'' parameter is simulated with a \(1/2\) chance for either direction, and only the selected detector may see the photon. In order to account for the halving of the number of photons seen globally (and to compare the numbers for the classical and quantum case directly), the detection rate for the classical case is halved.
     \item The computation for \(\mathbb{P}(\text{data} | M)\) where \(M\) is a model is as follows: 
     %
     \begin{align}
@@ -127,10 +127,10 @@ The two models --- quantum and classical --- are simulated and an estimate for t
     \end{align}
     %
     where \(f(r)\) and \(f(e)\) are the prior probability distributions for the detection rate and the error rate. 
-    Both of these were chosen to be uniform, and their ranges were not constrained \emph{a priori} to be smaller than \([0,1]\); however after exploratory runs it was found that the likelihoods for both models were nonzero only in a certain region, so only those were simulated for computational efficiency.
+    Both of these are chosen to be uniform, and their ranges are not constrained \emph{a priori} to be smaller than \([0,1]\); however after exploratory runs it was found that the likelihoods for both models were nonzero only in a certain region, so only those were simulated for computational efficiency.
     
-    The definitive intervals were \(r \in [\num{.012}, \num{0.019}]\) and \(e \in [\num{3.0e-7}, \num{1.8e-2}]\); 50 points were simulated for each, they were linearly spaced for \(r\) and logarithmically spaced for \(e\). 
-    \item For each pair of parameters, \(N_G\) photons were simulated for \(N _{\text{sim}}\) times. In the final run, we set \(N _{\text{sim}}\) to 600. 
+    The definitive intervals are \(r \in [\num{.012}, \num{0.019}]\) and \(e \in [\num{3.0e-7}, \num{1.8e-2}]\); 50 points are simulated for each, they are linearly spaced for \(r\) and logarithmically spaced for \(e\). 
+    \item For each pair of parameters, \(N_G\) photons are simulated for \(N _{\text{sim}}\) times. In the final run, we set \(N _{\text{sim}}\) to 600. 
     
     For each of the \(N _{\text{sim}}\) simulations the values \(N_{TG}\), \(N_{RG}\) and \(N_{TRG}\) are extracted (also, trivially, the fixed value of \(N_G\)). 
     From these, a gaussian Kernel-Density Estimation technique (using Scott's rule \cite[]{scipycontributorsScipyStatsGaussian2019,scottMultivariateDensityEstimation2015}) is used to estimate the value of the multivariate PDF at the point corresponding to the measured data for both models: the likelihood of the data.
