@@ -7,8 +7,15 @@ from scipy.stats import norm
 
 FILENAME = 'data/TimeTags.txt'
 RESOLUTION = 80.955 * u.ps * 2
-THR = (-20, 100)
+THR = (-40, 80)
 
+from matplotlib import rc
+# rc('font',**{'family':'serif','serif':['Palatino']})
+# rc('text', usetex=True)
+# rc('text.latex', preamble=r'''\usepackage{amsmath}
+#           \usepackage{physics}
+#           \usepackage{siunitx}
+#           ''')
 
 def read_file(name):
     """Returns a pandas dataframe from the comma-separated file at name"""
@@ -118,6 +125,22 @@ def plot_oer(t, r, g):
     plt.title('odd to even ratios')
     plt.show()
 
+def plot_timediffs(b_t, v_t, b_r, v_r,
+                   b_tc, v_tc, b_rc, v_rc):
+    prop_cycle = plt.rcParams['axes.prop_cycle']
+    colors = iter(prop_cycle.by_key()['color'])
+    
+    c1 = next(colors)
+    plt.bar(b_t, v_t, alpha=.5, color=c1)
+    plt.bar(b_tc, v_tc, label="Time differences: transmitted - gate", alpha=.2, color=c1)
+    c2 = next(colors)
+    plt.bar(b_r, v_r, alpha=.5, color=c2)
+    plt.bar(b_rc, v_rc, label="Time differences: reflected - gate", alpha=.2, color=c2)
+    plt.xlabel('Time difference [integer multiples of 160ps]')
+    plt.ylabel('Counts')
+    plt.legend()
+    plt.show()
+
 
 def get_statistics(bins, vals):
 
@@ -149,6 +172,9 @@ if __name__ == "__main__":
     thr_r = (int(round(m_r - s_r * std_multiplier)),
              int(round(m_r + s_r * std_multiplier)))
 
+    b_tc, v_tc = timediffs_histo(t, g, THR)
+    b_rc, v_rc = timediffs_histo(r, g, THR)
+    
     b_t, v_t = timediffs_histo(t, g, thr_t)
     b_r, v_r = timediffs_histo(r, g, thr_r)
 
@@ -166,12 +192,4 @@ if __name__ == "__main__":
     print()
     print(f'ratio r = {N_RG / N_G}')
     print(f'ratio t = {N_TG / N_G}')
-
-# In [14]: plt.bar(b_t, v_t, label="Time differences: transmitted - gate", alpha=.7)
-#     ...: plt.bar(b_r, v_r, label="Time differences: reflected - gate", alpha=.7)
-# Out[14]: <BarContainer object of 120 artists>
-
-# In [15]: plt.xlabel('Time difference [integer multiples of 160ps]')
-#     ...: plt.ylabel('Counts')
-#     ...: plt.legend()
-#     ...: plt.show()
+    # pass

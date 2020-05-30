@@ -4,11 +4,22 @@
 \input{header.tex}
 \title{Quantum optics lab report}
 
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=nyt,
+backref=true
+]{biblatex}
+
+\addbibresource{quantum_optics.bib}
+
 \begin{document}
 
 \maketitle
 
 \subfile{single_photon}
 \subfile{photon_statistics}
+
+\printbibliography
 
 \end{document}
