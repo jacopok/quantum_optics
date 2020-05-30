@@ -11,7 +11,7 @@ We wish to describe photon statistics pertaining to a laser beam, so we are just
 
 \textbf{Coherent light} is the closest quantum approximation we can find for the monochromatic plane wave solution. A coherent state \(\ket{\alpha } \) can be defined to be an eigenstate of the annihilation operator \(\hat{a}\): \(\hat{a} \ket{\alpha } = \alpha \ket{\alpha }\). 
 
-We can write in terms of the Fock number states \(\ket{n}\) as: 
+We can write these states in terms of the Fock number states \(\ket{n}\) as: 
 %
 \begin{align}
 \ket{\alpha } = \exp(- \frac{\abs{\alpha }^2}{2}) 
@@ -19,7 +19,60 @@ We can write in terms of the Fock number states \(\ket{n}\) as:
 \,,
 \end{align}
 %
- 
+and the expectation value of the electric field in a certain direction is oscillatory as expected: 
+%
+\begin{align}
+\ev{\hat{E}_x}{\alpha } = i \sqrt{\frac{\hbar \omega }{ 2 \epsilon_0 V}} \qty( \alpha  e^{i k_\mu x^{\mu }} - \alpha^{*} e^{-i k_\mu x^{\mu }} )
+\,,
+\end{align}
+%
+where we use the mostly plus metric convention, \(\epsilon_0 \) is the vacuum dielectric permittivity and \(V\) is the volume of the ``box'' in which the field is contained. 
+The average number of photons is given by \(\overline{n} = \abs{\alpha }^2\), and with this we can describe the statistics of the number of photons we would find in a certain region: it follows a Poisson distribution, 
+%
+\begin{align}
+\abs{\braket{\alpha }{n}}^2 = \frac{e^{-\overline{n}} \overline{n}^{n}}{n!}
+\,.
+\end{align}
+
+\textbf{Thermal light}, on the other hand, has the distribution we would expect to see if, for instance, we had a bath of atoms in thermal equilibrium with radiation and a transition with energy \(\hbar \omega \).
+
+The distribution describing this situation is the Boltzmann one: 
+%
+\begin{align}
+\mathbb{P} (E_n) \propto \exp( - \frac{E_n}{k_B T})
+\,,
+\end{align}
+%
+and in our case, using \(E_n = n \hbar \omega + \hbar \omega /2\) and the fact that the mean photon number is given by 
+%
+\begin{align}
+\overline{n} = \frac{1}{\exp( \hbar \omega  / k_B T) - 1}
+\,,
+\end{align}
+%
+we can write this as 
+%
+\begin{align}
+\mathbb{P}(n) = \frac{1}{\overline{n} +1} \qty(\frac{\overline{n}}{\overline{n}+1})^{n}
+\,.
+\end{align}
+
+In quantum terms, this is a \emph{completely mixed} state, a classical probabilistic mixture of the number states \(\ket{n}\), described by the density matrix 
+%
+\begin{align}
+\rho _{\text{thermal}} = \sum _{n} \mathbb{P}(n) \dyad{n} 
+\,.
+\end{align}
+
+Since the number states \(\ket{n}\) have zero expectation value for the electric field, here also we find \(\expval{\hat{E}_x}_{\text{thermal}} = 0\). 
+
+\subsection{Experimental setup}
+
+We create a setup which allows us to conveniently create coherent and thermal states at will.
+
+We start from a laser: the light it produces is coherent, and thus obeys Poisson statistics. 
+We bounce this laser off a disk, which is covered in sandpaper. The shape of the apparatus is quite simple; it is shown in figure \ref{fig:sandpaper}.  
+The sandpaper is reflective, so as long as the disk is stationary we expect the statistics of the light to be preserved. We will see that this is experimentally verified. 
 
 \begin{figure}[ht]
 \centering
@@ -28,23 +81,49 @@ We can write in terms of the Fock number states \(\ket{n}\) as:
 \label{fig:sandpaper}
 \end{figure}
 
+The sandpaper disk is then spun up: because of the roughness, the exact location from which the light bounces off changes moment by moment, so the electric field is \emph{scrambled}: it loses coherence, and its expectation value over a sufficient period of time becomes zero, which as we saw is a characteristic of thermal light.
+
+\subsection{Data preparation}
+
+We have two data acquisitions, labelled based on the distribution we expect from them: ``coherent'' and ``thermal''. 
+The former is taken with the disk being kept stationary, the latter is taken with the moving disk. 
+
+The data from the timetagger is a series of arrival times, in units of its resolution, which is of \SI{80.955}{ps}. 
+
+In order to recover the statistics for a certain acquisition, we select a window size \(w\); divide the total acquisition time into intervals of size \(w\), and count how many photons were detected in each interval.
+
+We then make a histogram of these numbers: after normalization, this procedure yields a probability distribution \(\mathbb{P}_w(n)\).
+
 \subsection{Analysis}
 
-With the sandpaper disk kept stationary, we expect the coherent state of the laser to be preserved, and therefore to have 
-%
-\begin{align}
-\mathbb{P} (n) = \frac{e^{-\overline{n}} \overline{n}^{n}}{n!}
-\,,
-\end{align}
-%
-while if the sandpaper disk is rotating we expect to see a thermal distribution, with 
-%
-\begin{align}
-\mathbb{P} (n) = \frac{\overline{n}^{n}}{(1 + \overline{n})^{n+1}}
-\,.
-\end{align}
+The first kind of analysis one can do is to fit the corresponding distribution to the data. What should we assign as a window size? 
 
-In order to see how these theoretical distributions compare to the data, we compute their first moments: the mean 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/1.0us}
+\caption{Probability of seeing a certain number of photons per window of \SI{1}{\micro s}.}
+\label{fig:1.0us}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/10.0us}
+\caption{Probability of seeing a certain number of photons per window of \SI{10}{\micro s}.}
+\label{fig:10.0us}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/100.0us}
+\caption{Probability of seeing a certain number of photons per window of \SI{100}{\micro s}.}
+\label{fig:100.0us}
+\end{figure}
+
+In figures \ref{fig:1.0us}, \ref{fig:10.0us} and \ref{fig:100.0us} we show the plots we find with a few different window sizes. The histogram is from the data, the line comes from the theoretical distribution computed by fixing the mean to be equal to that of the data.
+
+We can see that with window sizes of the order of \SI{10}{\micro s} the distribution is close to the theoretical one and the coherent and thermal ones look quite different; for smaller windows we start to rarely see even a single photon per window, for larger ones the mode of the ``thermal'' distribution shifts from zero.
+
+In order to understand this behaviour more specifically, we can compare the first moments of the distributions to the theoretical ones: we can compute the mean
 %
 \begin{align}
 \overline{n} = \sum _{n} \mathbb{P}(n) n
@@ -72,13 +151,21 @@ and the normalized kurtosis
 \,.
 \end{align}
 
-The only parameter the distributions depend on is the mean; so starting from it we compute these moments. 
-The results, for window sizes varying from \SI{10}{ns} to approximately \SI{3}{ms}, are shown in figure \ref{fig:photon_statistics}.
+For each window size \(w\) we compute the moments of the experimental distribution, and the corresponding ones for the theoretical distribution computed by fixing the mean to be the experimental one.
+The results, for window sizes varying from \SI{10}{ns} to approximately \SI{3}{ms}, are shown in figure \ref{fig:photon_statistics}. Beyond the moments, the mode is also shown. 
 
 \begin{sidewaysfigure}[ht]
     \includegraphics[width=\textwidth]{figures/photon_statistics.pdf}
     \caption{Photon statistics.}
     \label{fig:photon_statistics}
 \end{sidewaysfigure}
+
+We can see that the results trace quite well with the theoretical ones for the coherent case, especially for window sizes of \SI{100}{\micro s}: this is to be expected, and it gives us a way to estimate the coherence length of the LASER. 
+
+This is not the case for the thermal state, but it is not a terrible approximation. At \SI{10}{\micro s} the mean, variance and mode are good, the skewness and kurtosis are a bit off --- these higher moments are more influenced by noise at higher photon numbers, so it is understandable that they are more difficult to adjust. 
+
+It is understandable that the distribution does not come out to be exactly thermal: what the rotating sandpaper disk does is to effectively remove any kind of phase coherence, and therefore to enforce the expectation value of the electric field to be zero. 
+Any mixture of number states, however, has this property! 
+The incoming state is still coherent, and with this setup some coherence ``shines through'': perhaps with more than one rotating disk the state might have enough interactions with the environment to thermalize --- this has not fully happened in our case. 
 
 \end{document}

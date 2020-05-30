@@ -10,7 +10,7 @@ import numba
 from matplotlib import cm
 from scipy.stats import poisson
 from matplotlib import rc
-rc('font',**{'family':'serif','serif':['Palatino']})
+rc('font', **{'family': 'serif', 'serif': ['Palatino']})
 rc('text', usetex=True)
 rc('text.latex', preamble=r'''\usepackage{amsmath}
           \usepackage{physics}
@@ -44,10 +44,10 @@ def read_file(name):
     """Returns a pandas dataframe from the comma-separated file at name"""
 
     return pd.read_csv(name,
-                           sep=',',
-                           header=None,
-                           names=['ticks', 'channel'],
-                           dtype=np.int)
+                       sep=',',
+                       header=None,
+                       names=['ticks', 'channel'],
+                       dtype=np.int)
 
 
 def get_ticks(name):
@@ -244,29 +244,29 @@ def analyze(dist, bins, nbar):
     return th_desc
 
 
-def describe(distribution, dist_type, bins=None):
-    """Given a `distribution` given as an order array of values,
+def describe(dist, dist_type, bins=None):
+    """Given a distribution `dist` given as an order array of values,
     gives a description of the distribution, comparing it to the theoretical
     `dist_type`.
     """
 
     description = {}
     if bins is None:
-        bins = range(len(distribution))
+        bins = range(len(dist))
 
-    description['mode'] = np.argmax(distribution)
-    description['mean'] = moment(bins, distribution, 1)
+    description['mode'] = np.argmax(dist)
+    description['mean'] = moment(bins, dist, 1)
 
     th_desc = analyze(THEORETICAL_DISTRIBUTIONS[dist_type], bins,
                       description['mean'])
 
-    description['variance'] = moment(bins, distribution, 2)
+    description['variance'] = moment(bins, dist, 2)
     description['theoretical variance'] = th_desc['variance']
-    description['skewness'] = (moment(bins, distribution, 3) /
-                               moment(bins, distribution, 2)**(3 / 2))
+    description['skewness'] = (moment(bins, dist, 3) /
+                               moment(bins, dist, 2)**(3 / 2))
     description['theoretical skewness'] = th_desc['skewness']
-    description['kurtosis'] = (moment(bins, distribution, 4) /
-                               moment(bins, distribution, 2)**(4 / 2))
+    description['kurtosis'] = (moment(bins, dist, 4) /
+                               moment(bins, dist, 2)**(4 / 2))
     description['theoretical kurtosis'] = th_desc['kurtosis']
 
     return description
@@ -295,11 +295,10 @@ def plot_descriptions(windows, descriptions, colors=None):
 
     if colors is None:
         colors = COLORS
-    from matplotlib import ticker
 
     for i, (name, description) in enumerate(descriptions.items()):
         for characteristic in description[0]:
-    
+
             linestyle = '--' if 'theoretical' in characteristic else '-'
 
             axs[i].loglog(windows, [y[characteristic] for y in description],
@@ -344,9 +343,9 @@ def get_descriptions(windows=None, ticks_arrays=None):
     for window in windows:
         photon_counts = get_photon_counts(window, ticks_arrays)
 
-        for name, distribution in photon_counts.items():
-            description = describe(distribution, name)
-            descriptions[name].append(description)
+        for n, dist in photon_counts.items():
+            description = describe(dist, n)
+            descriptions[n].append(description)
 
     return descriptions
 
@@ -364,23 +363,37 @@ def get_rate(descriptions, windows, unit=u.kHz):
     """
 
     rates = {}
-    for name, description in descriptions.items():
+    for n, description in descriptions.items():
         distribution_rates = []
         for window, desc in zip(windows.value, description):
             mean = desc['mean']
             rate = mean / window
             distribution_rates.append(rate)
-        rates[name] = np.average(distribution_rates) / windows.unit
+        rates[n] = np.average(distribution_rates) / windows.unit
         if unit is not None:
-            rates[name] = rates[name].to(unit)
+            rates[n] = rates[n].to(unit)
     rates['ratio'] = (rates['thermal'] / rates['coherent']).to(u.percent)
 
     return rates
 
 
-# if __name__ == '__main__':
-
-# photon_counts = get_photon_counts(10*u.us)
-# for name, distribution in photon_counts.items():
-#     plt.bar(range(len(distribution)), distribution, label=name, alpha=.5)
-# plt.show()
+if __name__ == '__main__':
+    w = 100 * u.us
+    photon_counts = get_photon_counts(w, ALL_TICKS_ARRAYS)
+    prop_cycle = plt.rcParams['axes.prop_cycle']
+    colors = iter(prop_cycle.by_key()['color'])
+    plt.close()
+    for this_name, distribution in photon_counts.items():
+        n = range(len(distribution))
+        c = next(colors)
+        m = np.average(n, weights=distribution)
+        t = np.sum(distribution)
+        plt.bar(n, distribution/t, label=this_name, alpha=.5, color=c)
+        plt.plot(n, THEORETICAL_DISTRIBUTIONS[this_name](n, m), color=c)
+        a, b = plt.xlim()
+        plt.xlim((-1, b/1.5))
+        plt.ylabel('Probability')
+        plt.xlabel('Number of photons')
+        plt.title(f'Window: {w}')
+    plt.legend()
+    plt.savefig(f'../lab_report/figures/{w.value}{w.unit}.pdf', format='pdf', dpi=250)

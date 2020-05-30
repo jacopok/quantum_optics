@@ -9,7 +9,7 @@ The fact that light is made up of indivisible photons is not the only possible e
 
 So, we need an experiment to unambiguously show that light is indeed made up of indivisible \emph{quanta}.
 
-\subsection{Description of the apparatus}
+\subsection{Experimental setup}
 
 \begin{figure}[ht]
 \centering
@@ -32,14 +32,14 @@ Then, a click in the ``Gate'' detector signals that a photon is also coming thro
 Then, according to quantum theory if that photon is reflected it is not transmitted, and vice versa. 
 If, instead, we describe the electromagnetic field classically we expect the detection probability per unit time for both ``R'' and ``T'' to be proportional to the incoming power, with no correlation nor anticorrelation between them. 
 
-We may quantify this by introducing the second coherence parameter 
+We may quantify this by introducing the second order time coherence parameter 
 %
 \begin{align}
-g^{(2)} = \frac{ \mathbb{P} (RT | G) }{\mathbb{P}(R|G) \mathbb{P}(T|G)}
+g^{(2)} (0) = \frac{ \mathbb{P} (RT | G) }{\mathbb{P}(R|G) \mathbb{P}(T|G)}
 \,,
 \end{align}
 %
-where by \(RT | G\) we mean the event of observing a R+T coincidence, conditioned upon seeing a click by the gate; the notation for the other ones is similar. 
+where by \(RT | G\) we mean the event of observing a R+T coincidence, conditioned upon seeing a click by the gate; the notation for the other ones is similar. We will omit the argument \((0)\) hereafter; different values for it would indicate measurement of correlations at different times. 
 
 This can be computed by counting the number of coincidences, the expression is 
 %
@@ -63,7 +63,7 @@ This parameter allows us to quantify the correlation or anticorrelation between 
     by the Cauchy-Schwarz inequality. All the temporal integrals are definite ones, the bounds corresponding to the time of observation. For a small enough temporal variation of the intensity, the result approaches 1. 
 \end{enumerate}
 
-This is all in the case of an ideal detector, with no losses nor dark count. We do not explore the effect of these theoretically; instead in the data analysis these effects were parametrized and simulated as stochastic variables. 
+This is all in the case of an ideal detector, with no losses nor dark count. We do not explore the effect of these theoretically; instead in the data analysis these effects are parametrized and simulated as stochastic variables. 
 
 \subsection{Data preparation}
 
@@ -111,12 +111,12 @@ In order to perform a proper Bayesian analysis of these results, we need to comp
 \end{align}
 
 Some clarifications are in order. By ``data'' we mean the tuple \((N_G, N_{TG}, N_{RG}, N_{TRG})\). I use the notation \(\mathbb{P}\) for ease of reading, but the Bayes Factor is really a ratio of two probability \emph{densities}.\footnote{Or rather, since the detection numbers are so large, it is convenient to model them as continuous.}
-The two models --- quantum and classical --- are simulated as follows.
+The two models --- quantum and classical --- are simulated and an estimate for the \(BF\) is calculated as follows.
 
 \begin{enumerate}
     \item The number \(N_G\) is fixed as the total number of potential event detections for either detector. 
     \item We set two parameters: \(r\), the detection rate, and \(e\), the error rate.
-    Each detector is assumed to detect a fraction \(r\) of the incoming photons, and to make an error a fraction \(e\) of the time --- this can be either a dark count, or a missed detection (although since \(r \ll 1\), it mostly accounts for the former).\footnote{A small correction is needed to account for the detector asymmetry. We observe \(N_{TG} - N_{RG} \approx 1000\), which is on the order of \(10 \sigma \) using Poisson statistics: so, there is a bias in the detectors. This is accounted for by extracting the factor \(N_{TG} / N_{RG}\) from the data and applying it as a \emph{constant bias} for each simulated ratio between the detectors, for both models.}
+    Each detector is assumed to detect a fraction \(r\) of the incoming photons, and to make an error a fraction \(e\) of the time --- this can be either a dark count, or a missed detection (although since \(r \ll 1\), it mostly accounts for the former).\footnote{A small correction is needed to account for the detector asymmetry. We observe \(N_{TG} - N_{RG} \approx 1000\), which is on the order of \(8 \sigma \) using Poisson statistics (\(\sqrt{N_{TG}} \approx 122\)): so, there is a bias in the detectors or in the beamsplitter --- we cannot tell, but surely it is the case that statistically more coincidences are detected in one detector than the other. This is accounted for by calculating the factor \(b = N_{TG} / N_{RG}\) from the data and applying it as a \emph{constant bias} for each simulated ratio between the detectors, for both models. So, if one detector is simulated to have a rate \(r\) the other one is simulated to have a detection rate \(br\).}
     \item In the classical case, the detectors are simulated independently, while in the quantum case a ``which-way'' parameter is simulated with a \(1/2\) chance for either direction, and only the selected detector may see the photon. In order to account for the halving of the number of photons seen globally (and to compare the numbers for the classical and quantum case directly), the detection rate for the classical is halved.
     \item The computation for \(\mathbb{P}(\text{data} | M)\) where \(M\) is a model is as follows: 
     %
@@ -152,5 +152,11 @@ The two models --- quantum and classical --- are simulated as follows.
 \end{figure}
 
 The code which performs these simulations can be found at \url{https://github.com/jacopok/quantum_optics/tree/master/single_photon}. 
+
+A note on the parametrization: we use only two parameters for our model because it is the least amount which can reproduce the experimental results.
+This is certainly a heavy simplifying assumption: we are considering each gate click as ``guaranteed'', and putting all the uncertainty in the other two detectors.
+This may seem like an issue, but it is not. The effect of errors (dark count and missed photons) in the gate and in the detectors is always a bit-flip in the end, so we can parametrize away our ignorance of the precise cause of a certain error. 
+
+Since we have to marginalize over any new parameter we introduce, we are forced to have a small number of them to have a computationally tractable problem. 
 
 \end{document}
