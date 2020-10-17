@@ -162,34 +162,34 @@ if __name__ == "__main__":
     T, R = get_all_timediffs(*ticks)
     t, r, g = ticks
 
-    m_t, s_t = get_statistics(*T)
-    m_r, s_r = get_statistics(*R)
+    # m_t, s_t = get_statistics(*T)
+    # m_r, s_r = get_statistics(*R)
 
-    std_multiplier = 5
+    # std_multiplier = 5
 
-    thr_t = (int(round(m_t - s_t * std_multiplier)),
-             int(round(m_t + s_t * std_multiplier)))
-    thr_r = (int(round(m_r - s_r * std_multiplier)),
-             int(round(m_r + s_r * std_multiplier)))
+    # thr_t = (int(round(m_t - s_t * std_multiplier)),
+    #          int(round(m_t + s_t * std_multiplier)))
+    # thr_r = (int(round(m_r - s_r * std_multiplier)),
+    #          int(round(m_r + s_r * std_multiplier)))
 
-    b_tc, v_tc = timediffs_histo(t, g, THR)
-    b_rc, v_rc = timediffs_histo(r, g, THR)
+    # b_tc, v_tc = timediffs_histo(t, g, THR)
+    # b_rc, v_rc = timediffs_histo(r, g, THR)
     
-    b_t, v_t = timediffs_histo(t, g, thr_t)
-    b_r, v_r = timediffs_histo(r, g, thr_r)
+    # b_t, v_t = timediffs_histo(t, g, thr_t)
+    # b_r, v_r = timediffs_histo(r, g, thr_r)
 
-    td = get_timediffs_double(t, r, g, thr_t, thr_r)
+    # td = get_timediffs_double(t, r, g, thr_t, thr_r)
 
-    N_G = len(g)
-    N_TG = np.sum(v_t)
-    N_RG = np.sum(v_r)
-    N_TRG = len(list(td))
+    # N_G = len(g)
+    # N_TG = np.sum(v_t)
+    # N_RG = np.sum(v_r)
+    # N_TRG = len(list(td))
 
-    print(f'{N_G=}')
-    print(f'{N_TG=}')
-    print(f'{N_RG=}')
-    print(f'{N_TRG=}')
-    print()
-    print(f'ratio r = {N_RG / N_G}')
-    print(f'ratio t = {N_TG / N_G}')
+    # print(f'{N_G=}')
+    # print(f'{N_TG=}')
+    # print(f'{N_RG=}')
+    # print(f'{N_TRG=}')
+    # print()
+    # print(f'ratio r = {N_RG / N_G}')
+    # print(f'ratio t = {N_TG / N_G}')
     # pass
