@@ -8,6 +8,7 @@ RATE_UNIT = 'Hz'
 
 # n = count_coincidences('data/x0a0_y0b0.txt', plot=True)
 
+
 def compute_rates():
 
     rates = unumpy.uarray(np.zeros((2, 2, 2, 2)), np.zeros((2, 2, 2, 2)))
@@ -20,8 +21,9 @@ def compute_rates():
                     n, t = count_coincidences(name)
                     rates[x, y, a, b] = ufloat(
                         (n / t).to(RATE_UNIT).value, (np.sqrt(n) / t).to(RATE_UNIT).value)
-    
+
     return(rates)
+
 
 def expected_value(x, y, rates):
     data = rates[x, y, :, :]
@@ -29,10 +31,11 @@ def expected_value(x, y, rates):
     counts = data[0, 0] + data[1, 1] - data[0, 1] - data[1, 0]
     return (counts / total_counts)
 
+
 def CHSH(rates):
     return (
         expected_value(0, 0, rates) +
         expected_value(0, 1, rates) +
         expected_value(1, 0, rates) -
-        expected_value(1, 1, rates) 
-        )
+        expected_value(1, 1, rates)
+    )

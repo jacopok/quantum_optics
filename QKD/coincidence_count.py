@@ -107,7 +107,7 @@ def select_coincidences(ticks, sigma_multiplier, plot, mean=None, std=None, retu
 
     bins, vals = timediffs_histo(*ticks)
 
-    if ((max(vals) - np.average(vals)) / np.std(vals) < 5):
+    if ((max(vals) - np.average(vals)) / np.std(vals) < 4.5):
         print(
             f'The peak is only {(max(vals) - np.average(vals))/np.std(vals)} sigmas high')
         raise(NotImplementedError('It is not pronounced enough'))
