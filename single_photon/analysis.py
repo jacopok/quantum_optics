@@ -10,12 +10,12 @@ RESOLUTION = 80.955 * u.ps * 2
 THR = (-40, 80)
 
 from matplotlib import rc
-# rc('font',**{'family':'serif','serif':['Palatino']})
-# rc('text', usetex=True)
-# rc('text.latex', preamble=r'''\usepackage{amsmath}
-#           \usepackage{physics}
-#           \usepackage{siunitx}
-#           ''')
+rc('font',**{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
+rc('text.latex', preamble=r'''\usepackage{amsmath}
+          \usepackage{physics}
+          \usepackage{siunitx}
+          ''')
 
 def read_file(name):
     """Returns a pandas dataframe from the comma-separated file at name"""

@@ -1,2 +1,6 @@
 single_photon/data/*
 photon_statistics/data/*
+bell_test/data/*
+QKD/data/*
+tomography/data/*
+Guida_Lab.pdf
