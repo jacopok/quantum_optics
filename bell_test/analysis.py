@@ -11,6 +11,21 @@ RATE_UNIT = 'Hz'
 
 def compute_rates():
 
+    sigmas = np.zeros((2, 2, 2, 2))
+    means = np.zeros((2, 2, 2, 2))
+    
+    for x in range(2):
+        for y in range(2):
+            for a in range(2):
+                for b in range(2):
+                    name = f'data/x{x}a{a}_y{y}b{b}.txt'
+                    mean, std = count_coincidences(name, return_params=True)
+                    means[x, y , a, b] = mean
+                    sigmas[x, y , a, b] = std
+
+    total_mean = np.average(means)
+    total_std = np.average(sigmas)
+
     rates = unumpy.uarray(np.zeros((2, 2, 2, 2)), np.zeros((2, 2, 2, 2)))
 
     for x in range(2):
@@ -18,7 +33,7 @@ def compute_rates():
             for a in range(2):
                 for b in range(2):
                     name = f'data/x{x}a{a}_y{y}b{b}.txt'
-                    n, t = count_coincidences(name)
+                    n, t = count_coincidences(name, total_mean, total_std)
                     rates[x, y, a, b] = ufloat(
                         (n / t).to(RATE_UNIT).value, (np.sqrt(n) / t).to(RATE_UNIT).value)
 
@@ -39,3 +54,9 @@ def CHSH(rates):
         expected_value(1, 0, rates) -
         expected_value(1, 1, rates)
     )
+
+if __name__ == "__main__":
+    
+    rates = compute_rates()
+    
+    print(f'CHSH = {CHSH(rates)}')

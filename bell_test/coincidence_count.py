@@ -104,10 +104,10 @@ def plot_timediffs(bins, vals,
 
 
 def select_coincidences(ticks, sigma_multiplier, plot, mean=None, std=None, return_params=False, verbose=True):
-
+    
     bins, vals = timediffs_histo(*ticks)
 
-    if ((max(vals) - np.average(vals)) / np.std(vals) < 5):
+    if ((max(vals) - np.average(vals)) / np.std(vals) < 4.5):
         print(
             f'The peak is only {(max(vals) - np.average(vals))/np.std(vals)} sigmas high')
         raise(NotImplementedError('It is not pronounced enough'))
@@ -134,17 +134,17 @@ def select_coincidences(ticks, sigma_multiplier, plot, mean=None, std=None, retu
     return (minimal_bins, minimal_vals)
 
 
-def count_coincidences(name, sigma_multiplier=SIGMA_MULTIPLIER, return_params=False, plot=False, verbose=True):
+def count_coincidences(name, mean=None, std=None, sigma_multiplier=SIGMA_MULTIPLIER, return_params=False, plot=False, verbose=True):
 
     if (verbose):
         print(f'Analyzing file {name}')
 
     ticks = get_ticks(name)
     if return_params:
-        return(select_coincidences(ticks, sigma_multiplier, plot=False))
+        return(select_coincidences(ticks, sigma_multiplier, return_params=return_params, plot=False))
     else:
         minimal_bins, minimal_vals = select_coincidences(
-            ticks, sigma_multiplier, plot)
+            ticks, sigma_multiplier, plot, mean, std)
 
     ticks_a, ticks_b = ticks
     obs_time = max(ticks_a[-1], ticks_b[-1]) * RESOLUTION
