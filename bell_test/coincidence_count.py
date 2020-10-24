@@ -3,6 +3,7 @@ import pandas as pd
 import astropy.units as u
 from scipy.optimize import curve_fit
 from scipy.stats import norm
+from numba import jit
 
 import matplotlib.pyplot as plt
 from matplotlib import rc
@@ -14,7 +15,7 @@ rc('text.latex', preamble=r'''\usepackage{amsmath}
           ''')
 
 RESOLUTION = 80.955 * u.ps * 2
-THR = (-40, 80)
+THR = (-50, 50)
 SIGMA_MULTIPLIER = 5
 
 

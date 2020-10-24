@@ -57,6 +57,6 @@ def CHSH(rates):
 
 if __name__ == "__main__":
     
-    rates = compute_rates()
+    computed_rates = compute_rates()
     
-    print(f'CHSH = {CHSH(rates)}')
+    print(f'CHSH = {CHSH(computed_rates)}')
