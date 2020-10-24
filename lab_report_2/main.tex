@@ -2,7 +2,7 @@
 \usepackage[]{subfiles}
 
 \input{header.tex}
-\title{Quantum optics lab report}
+\title{Quantum optics lab report --- part 2}
 
 \usepackage[
 backend=biber,
@@ -17,20 +17,10 @@ backref=true
 
 \maketitle
 
-\begin{abstract}
-Abstract.
-\end{abstract}
-
-Quantum efficiency of \SI{50}{\percent}.
-Passband filer at \SI{810}{nm}. 
-Jitter at \SI{1}{ns}. 
-Dark count at a few times \SI{100}{Hz}. 
-
-
-
-\subfile{QKD}
+\subfile{setup}
 \subfile{bell}
-\subfile{tomography}
+\subfile{QKD}
+% \subfile{tomography}
 
 \printbibliography
 

@@ -13,6 +13,7 @@ rc('text.latex', preamble=r'''\usepackage{amsmath}
           \usepackage{siunitx}
           ''')
 
+# count one bin each two to avoid parity issues from the time tagger
 RESOLUTION = 80.955 * u.ps * 2
 THR = (-40, 80)
 SIGMA_MULTIPLIER = 5
@@ -41,6 +42,7 @@ def get_ticks(name):
         print('More than two channels!')
         return (None)
 
+    # count one bin each two to avoid parity issues with the time tagger
     ticks_a = data[data['channel'] == channel_a]['ticks'].values // 2
     ticks_b = data[data['channel'] == channel_b]['ticks'].values // 2
 

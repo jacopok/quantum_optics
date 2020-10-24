@@ -1,0 +1,28 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Experimental setup}
+
+% Quantum efficiency of \SI{50}{\percent}.
+% Passband filer at \SI{810}{nm}. 
+% Jitter at \SI{1}{ns}. 
+% Dark count at a few times \SI{100}{Hz}. 
+
+We give a short description of the experimental apparatus, neglecting all mirrors, lenses, irises and in general devices needed in order to direct, select and concentrate the light beam.
+
+A blue ``pump'' laser emits light with wavelength \(\lambda = \SI{405}{nm}\) continuously.
+The light from this laser passes through a half-wave plate which achieves a \SI{45}{\degree} linear polarization;
+which then impinges upon a pair of parametric fluorescence crystals with optical axes orthogonal to each other and to the propagation direction;
+a fraction \(\num{e-8}\divisionsymbol \num{e-7} \) of the time a photon from the pump is turned into a pair of photons with \(\lambda = \SI{810}{nm}\) and with propagation directions of around \SI{4}{\degree} from the original beam. 
+The polarizations of these two photons are entangled: their state is 
+%
+\begin{align} \label{eq:epr-state}
+\frac{1}{\sqrt{2}} \qty(\ket{HH} + \ket{VV})
+\,,
+\end{align}
+%
+where \(\ket{H}\) or \(\ket{V}\) denotes the horizontal or vertical polarization of a photon. 
+
+These two photons then each pass through a half-wave plate, which selects a (linear) polarization to project the state along.
+
+\end{document}
