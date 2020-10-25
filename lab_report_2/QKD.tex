@@ -48,10 +48,15 @@ h (p) = - \qty(p \log_2 p + (1-p) \log_2 (1-p) )
 \,.
 \end{align}
 
-The rate is further halved because of the random choice of basis. With this consideration, we find a key rate of approximately \SI{125}{Hz}; this will be further reduced because of the requirement to reserve a fraction of the qubits for entanglement verification.
+With our experiment we find \(r \approx \num{0.72+-0.01}\). 
+
+The rate in bits per second is further halved because of the random choice of basis of Alice and Bob.
+With this consideration, we find a key rate of approximately \SI{125}{Hz} (or bits per second); this will be further reduced because of the requirement to reserve a fraction of the qubits for entanglement verification.
 
 A Jupyter notebook summarizing the results and analysis can be found at \url{https://github.com/jacopok/quantum_optics/blob/master/QKD/report_QKD.ipynb}.
 
 The full code for the analysis is in the folder \url{https://github.com/jacopok/quantum_optics/tree/master/QKD}.
+
+Considering the relative simplicity of the experimental setup --- it is a table-top experiment, after all --- this key rate is not bad, it would be enough for somewhat slow text-based communication, at about 10 letters a second. 
 
 \end{document}
