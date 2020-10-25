@@ -8,34 +8,30 @@ RATE_UNIT = 'Hz'
 
 # n = count_coincidences('data/x0a0_y0b0.txt', plot=True)
 
+def file_name(multi_index):
+    x, y, a, b = multi_index
+    return(f'data/x{x}a{a}_y{y}b{b}.txt')
+    
 
 def compute_rates():
 
     sigmas = np.zeros((2, 2, 2, 2))
     means = np.zeros((2, 2, 2, 2))
-    
-    for x in range(2):
-        for y in range(2):
-            for a in range(2):
-                for b in range(2):
-                    name = f'data/x{x}a{a}_y{y}b{b}.txt'
-                    mean, std = count_coincidences(name, return_params=True)
-                    means[x, y , a, b] = mean
-                    sigmas[x, y , a, b] = std
+
+    for multi_index, _ in np.ndenumerate(means):
+        mean, std = count_coincidences(file_name(multi_index), return_params=True)
+        means[multi_index] = mean
+        sigmas[multi_index] = std
 
     total_mean = np.average(means)
     total_std = np.average(sigmas)
 
     rates = unumpy.uarray(np.zeros((2, 2, 2, 2)), np.zeros((2, 2, 2, 2)))
 
-    for x in range(2):
-        for y in range(2):
-            for a in range(2):
-                for b in range(2):
-                    name = f'data/x{x}a{a}_y{y}b{b}.txt'
-                    n, t = count_coincidences(name, total_mean, total_std)
-                    rates[x, y, a, b] = ufloat(
-                        (n / t).to(RATE_UNIT).value, (np.sqrt(n) / t).to(RATE_UNIT).value)
+    for multi_index, _ in np.ndenumerate(rates):
+        n, t = count_coincidences(file_name(multi_index), total_mean, total_std)
+        rates[multi_index] = ufloat(
+            (n / t).to(RATE_UNIT).value, (np.sqrt(n) / t).to(RATE_UNIT).value)
 
     return(rates)
 
