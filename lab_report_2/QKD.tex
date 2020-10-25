@@ -13,7 +13,16 @@ They can later disclose which bases were used; the results of the measurements i
 In order to be sure that the qubits have not been tampered with a certain fraction of them should be periodically analyzed publicly: if they manage to retain entanglement (which can be verified, for example, by checking for the violation of Bell inequalities) then they are safe. 
 
 We measured the rate of key transfer which can be achieved by our experimental setup. 
-This is constrained by errors, which can be quantified through the Quantum Bit Error Rate: in the state from before \eqref{eq:epr-state} the probability of detecting \(HV\), \(AD\) and such should be zero, but because of various sources of noise this is not so.
+The state we use is the same as in \eqref{eq:epr-state}, and it can also be written as 
+%
+\begin{align}
+\frac{1}{\sqrt{2}} \qty(\ket{HH} + \ket{VV})
+=
+\frac{1}{\sqrt{2}} \qty(\ket{AA} + \ket{DD})
+\,.
+\end{align}
+
+The key rate is constrained by errors, which can be quantified through the Quantum Bit Error Rate: the probability of detecting \(HV\), \(AD\) and such should be zero ideally, but because of various sources of noise this is not so.
 Then, for the \(H-V\) basis we define 
 %
 \begin{align}
@@ -39,7 +48,7 @@ h (p) = - \qty(p \log_2 p + (1-p) \log_2 (1-p) )
 \,.
 \end{align}
 
-The rate is further halved because of the random choice of basis. With this consideration, we find a rate of approximately \SI{125}{Hz}; this will be further reduced because of the requirement to reserve a fraction of the qubits for entanglement verification.
+The rate is further halved because of the random choice of basis. With this consideration, we find a key rate of approximately \SI{125}{Hz}; this will be further reduced because of the requirement to reserve a fraction of the qubits for entanglement verification.
 
 A Jupyter notebook summarizing the results and analysis can be found at \url{https://github.com/jacopok/quantum_optics/blob/master/QKD/report_QKD.ipynb}.
 

@@ -16,27 +16,25 @@ def compute_rates():
     sigmas = np.zeros((2, 2, 2))
     means = np.zeros((2, 2, 2))
     
-    for basis in range(2):
-        for pol_1 in range(2):
-            for pol_2 in range(2):
-                name = f'data/{names[basis, pol_1, pol_2]}_correct.txt'
-                mean, std = count_coincidences(name, return_params=True)
-                means[basis, pol_1, pol_2] = mean
-                sigmas[basis, pol_1, pol_2] = std
+    it_names = np.nditer(names, flags=['multi_index'])
+    for name in it_names:
+        file_name = f'data/{name}_correct.txt'
+        mean, std = count_coincidences(file_name, return_params=True)
+        means[it_names.multi_index] = mean
+        sigmas[it_names.multi_index] = std
 
     total_mean = np.average(means)
     total_std = np.average(sigmas)
     
     rates = unumpy.uarray(np.zeros((2, 2, 2)), np.zeros((2, 2, 2)))
 
-    for basis in range(2):
-        for pol_1 in range(2):
-            for pol_2 in range(2):
-                name = f'data/{names[basis, pol_1, pol_2]}_correct.txt'
-                count, time = count_coincidences(name, total_mean, total_std)
-                rates[basis, pol_1, pol_2] = ufloat(
-                    (count / time).to(RATE_UNIT).value,
-                    (np.sqrt(count) / time).to(RATE_UNIT).value)
+    it_names = np.nditer(names, flags=['multi_index'])
+    for name in it_names:
+        file_name = f'data/{name}_correct.txt'
+        count, time = count_coincidences(file_name, total_mean, total_std)
+        rates[it_names.multi_index] = ufloat(
+            (count / time).to(RATE_UNIT).value,
+            (np.sqrt(count) / time).to(RATE_UNIT).value)
 
     return(rates)
 
