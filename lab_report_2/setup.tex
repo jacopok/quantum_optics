@@ -11,9 +11,11 @@
 We give a short description of the experimental apparatus, neglecting all mirrors, lenses, irises and in general devices needed in order to direct, select and concentrate the light beam.
 
 A blue ``pump'' laser emits light with wavelength \(\lambda = \SI{405}{nm}\) continuously.
-The light from this laser passes through a half-wave plate which achieves a \SI{45}{\degree} linear polarization;
-which then impinges upon a pair of parametric fluorescence crystals with optical axes orthogonal to each other and to the propagation direction;
-a fraction \(\num{e-8}\divisionsymbol \num{e-7} \) of the time a photon from the pump is turned into a pair of photons with \(\lambda = \SI{810}{nm}\) and with propagation directions of around \SI{4}{\degree} from the original beam. 
+The light from this laser is initially horizontally polarized; it passes through a half-wave plate which achieves a linear polarization at \SI{45}{\degree} from the horizontal: a state proportional to \(\ket{H} + \ket{V}\), where \(H\) and \(V\) denote the horizontal and vertical linear polarizations respectively. 
+
+The light then impinges upon a pair of parametric fluorescence crystals with optical axes orthogonal to each other and to the propagation direction;
+a fraction \(\num{e-8}\divisionsymbol \num{e-7} \) of the times an incoming photon from the pump is turned into a pair of photons with \(\lambda = \SI{810}{nm}\) and with propagation directions of around \SI{4}{\degree} from the original beam. 
+
 The polarizations of these two photons are entangled: their state is 
 %
 \begin{align} \label{eq:epr-state}
@@ -27,6 +29,17 @@ These two photons then each pass through a half-wave plate and a Polarizing Beam
 The reflected photons are discarded in this setup. 
 
 In order to measure along the polarization \(\cos \theta \ket{H} + \sin \theta \ket{V}\) we must rotate the polarization of the photons by an angle \(\theta \), which is achieved by rotating the half-wave plate by an angle \(\theta /2\). 
+
+The half-wave plate at an angle \(\varphi \) can be modelled as the quantum gate 
+%
+\begin{align}
+\left[\begin{array}{cc}
+\cos(2 \varphi ) & \sin(2 \varphi ) \\ 
+- \sin(2 \varphi ) & \cos(2 \varphi )
+\end{array}\right]
+\end{align}
+%
+in the single-photon polarization space with basis \(\qty{\ket{H}, \ket{V}}\).
 
 After the PBS, the photons reach a single-photon detector, which measures their arrival time with a jitter of approximately \SI{1}{ns}, a quantum efficiency (probability that a specific photon is detected) of approximately \SI{50}{\percent}, and a dark count of approximately \SI{100}{Hz}. 
 

@@ -32,7 +32,13 @@ Then, for the \(H-V\) basis we define
 \,,
 \end{align}
 %
-and similarly for \(A-D\). 
+and similarly for \(A-D\). This is computed, as usual, as favorable events versus total events, where the ``total events'' only refer to that specific basis: for example, 
+%
+\begin{align}
+\mathbb{P}(HV) = \frac{N_{HV}}{N_{HH} + N_{VV} + N_{HV} + N_{VH}}
+\,.
+\end{align}
+
 The fraction of usable qubits is then calculated as 
 %
 \begin{align}
@@ -43,7 +49,7 @@ r =
 \,,
 \end{align}
 %
-where the function \(h\) comes from considerations about mutual information of Alice and Bob; it is given by 
+where the function \(h\) comes from considerations about the mutual information of Alice and Bob; it is given by 
 %
 \begin{align}
 h (p) = - \qty(p \log_2 p + (1-p) \log_2 (1-p) )
