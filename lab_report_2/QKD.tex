@@ -8,7 +8,9 @@ With the same experimental setup as the Bell test, we were able to implement a Q
 The two conventional communicators Alice and Bob can achieve a shared secret key by receiving entangled qubits. 
 Two bases are agreed upon, we use the same ones which were used in the Bell inequalities case (\(H-V\) and \(D-A\)).
 They measure each qubit in a randomly-chosen basis, half of the time on average they will happen to choose the same one.
-They can later disclose which bases were used; the results of the measurements in a shared basis then should be a shared message. 
+They can later disclose which bases were used; the results of the measurements in a shared basis then will be a shared key. 
+
+This shared key can then be used in order to encrypt a message bit-by-bit using a logical XOR gate: as long as the key is secret and longer than the message this is fully secure.
 
 In order to be sure that the qubits have not been tampered with a certain fraction of them should be periodically analyzed publicly: if they manage to retain entanglement (which can be verified, for example, by checking for the violation of Bell inequalities) then they are safe. 
 
@@ -57,6 +59,6 @@ A Jupyter notebook summarizing the results and analysis can be found at \url{htt
 
 The full code for the analysis is in the folder \url{https://github.com/jacopok/quantum_optics/tree/master/QKD}.
 
-Considering the relative simplicity of the experimental setup --- it is a table-top experiment, after all --- this key rate is not bad, it would be enough for somewhat slow text-based communication, at about 10 letters a second. 
+Considering the relative simplicity of the experimental setup --- it is a table-top experiment, after all --- this key rate is not bad, it would be enough for somewhat slow fully secure text-based communication, at about 10 letters a second. 
 
 \end{document}
